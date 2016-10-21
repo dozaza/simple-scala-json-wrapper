@@ -87,7 +87,7 @@ object main {
       |  "detail": {
       |    "sex": "male",
       |    "age": 26
-      |  }, 
+      |  },
       |  "type": null
       |}
     """.stripMargin
@@ -98,7 +98,7 @@ object main {
     val id = jsObj.getInt("id", throw new RuntimeException("no id"))
     println(id)
 
-    val languages = jsObj.getJsList("languages", throw new RuntimeException("no languages"))
+    val languages = jsObj.getJsList("languages", throw new RuntimeException("no languages")).toStringList
     println(languages)
 
     val detail = jsObj.getJsObject("detail", Map.empty[String, Any])

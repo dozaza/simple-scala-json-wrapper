@@ -66,7 +66,7 @@ package object json {
       }
     }
 
-    def getDouble(key: String, default: Double): Double = {
+    def getDouble(key: String, default: => Double): Double = {
       getDouble(key).getOrElse(default)
     }
 
@@ -88,7 +88,7 @@ package object json {
       }
     }
 
-    def getBoolean(key: String, default: Boolean): Boolean = {
+    def getBoolean(key: String, default: => Boolean): Boolean = {
       getBoolean(key).getOrElse(default)
     }
 
