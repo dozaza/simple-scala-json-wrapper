@@ -33,7 +33,7 @@ class JsonTest extends WordSpec with ShouldMatchers {
       |}
     """.stripMargin
 
-  private val testJson2 =
+  private val jsonList =
     """[{
       |  "id": 1,
       |  "name": "dozaza",
@@ -82,6 +82,31 @@ class JsonTest extends WordSpec with ShouldMatchers {
       jsObj.getBoolean("isSingle") match {
         case Some(flag) => flag should equal (false)
         case _ => throw new RuntimeException
+      }
+    }
+  }
+
+  "parse json list" should {
+    val jsList = Json.parse(jsonList).asInstanceOf[JsList]
+
+    "get head's id" in {
+      val jsObjList = jsList.toJsObjects
+      jsObjList.size should equal (1)
+      jsObjList.head.getInt("id") match {
+        case Some(id) => id should equal (1)
+        case _ => throw new RuntimeException
+      }
+    }
+  }
+
+  "parse json object throw exception" should {
+    val jsObj = Json.parse(jsonObj2).asInstanceOf[JsObject]
+
+    "id not exists" in {
+      jsObj.getInt("id") should equal (None)
+
+      a [RuntimeException] should be thrownBy {
+        jsObj.getInt("id", throw new RuntimeException)
       }
     }
   }
