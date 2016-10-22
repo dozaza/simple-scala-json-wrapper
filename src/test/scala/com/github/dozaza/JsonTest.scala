@@ -42,7 +42,8 @@ class JsonTest extends WordSpec with ShouldMatchers {
       |    "sex": "male",
       |    "age": 26
       |  },
-      |  "type": null
+      |  "type": null,
+      |  "listOfList": [[1, 2], [3, 4]]
       |}]
     """.stripMargin
 
@@ -88,14 +89,21 @@ class JsonTest extends WordSpec with ShouldMatchers {
 
   "parse json list" should {
     val jsList = Json.parse(jsonList).asInstanceOf[JsList]
+    val jsObjList = jsList.toJsObjects
 
     "get head's id" in {
-      val jsObjList = jsList.toJsObjects
       jsObjList.size should equal (1)
       jsObjList.head.getInt("id") match {
         case Some(id) => id should equal (1)
         case _ => throw new RuntimeException
       }
+    }
+
+    "get list of list" in {
+      val listOfList = jsObjList.head.getJsList("listOfList", throw new RuntimeException).toJsLists
+      listOfList.size should equal (2)
+      listOfList.last.toIntList.size should equal (2)
+      listOfList.last.toIntList.last should equal (4)
     }
   }
 
@@ -108,6 +116,13 @@ class JsonTest extends WordSpec with ShouldMatchers {
       a [RuntimeException] should be thrownBy {
         jsObj.getInt("id", throw new RuntimeException)
       }
+    }
+  }
+
+  "parse json list throw exception" in {
+    val jsObjList = Json.parse(jsonList).asInstanceOf[JsList].toJsObjects
+    a [RuntimeException] should be thrownBy {
+      jsObjList.head.getJsList("languages", throw new RuntimeException).toBooleanList
     }
   }
 }
