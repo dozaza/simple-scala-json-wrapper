@@ -73,6 +73,7 @@ package object json {
 
     def getString(key: String): Option[String] = {
       map.get(key) match {
+        case Some(nullObj) if nullObj == null => Some(null)
         case Some(StringExtractor(s)) => Some(s)
         case _ => None
       }
