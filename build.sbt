@@ -28,7 +28,8 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-remote" % "2.2.0",
     "joda-time" % "joda-time" % "2.2",
     "org.joda" % "joda-convert" % "1.5",
-    "com.github.tototoshi" %% "scala-csv" % "1.2.2"
+    "com.github.tototoshi" %% "scala-csv" % "1.2.2",
+    "org.scalatest" % "scalatest_2.10" % "2.0" % "test"
   )
 }
 
