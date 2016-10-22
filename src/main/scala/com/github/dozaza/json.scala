@@ -1,11 +1,12 @@
 package com.github.dozaza
 
+import scala.reflect.ClassTag
 import scala.util.control.NonFatal
 import scala.util.parsing.json.JSON
 
 package object json {
 
-  abstract class DataExtractor[T] {
+  abstract class DataExtractor[T: ClassTag] {
 
     def unapply(o: Any): Option[T] = {
       o match {
@@ -18,9 +19,9 @@ package object json {
 
   object MapExtractor extends DataExtractor[Map[String, Any]]
   object ListExtractor extends DataExtractor[List[Any]]
-  object DoubleExtractor extends DataExtractor[Double]
+  object DoubleExtractor extends DataExtractor[java.lang.Double]
   object StringExtractor extends DataExtractor[String]
-  object BooleanExtractor extends DataExtractor[Boolean]
+  object BooleanExtractor extends DataExtractor[java.lang.Boolean]
 
   abstract class JsBase
 
@@ -134,7 +135,7 @@ package object json {
     def toDoubleList: List[Double] = {
       try {
         list.map {
-          case DoubleExtractor(d) => d
+          case DoubleExtractor(d) => d.doubleValue()
           case _ => throw new RuntimeException
         }
       } catch {
@@ -156,7 +157,7 @@ package object json {
     def toBooleanList: List[Boolean] = {
       try {
         list.map {
-          case BooleanExtractor(b) => b
+          case BooleanExtractor(b) => b.booleanValue()
           case _ => throw new RuntimeException
         }
       } catch {

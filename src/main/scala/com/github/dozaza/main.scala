@@ -92,6 +92,19 @@ object main {
       |}
     """.stripMargin
 
+  private val testJson2 =
+    """[{
+      |  "id": 1,
+      |  "name": "dozaza",
+      |  "languages": ["chinese", "english", "french"],
+      |  "detail": {
+      |    "sex": "male",
+      |    "age": 26
+      |  },
+      |  "type": null
+      |}]
+    """.stripMargin
+
   def main(args: Array[String]): Unit = {
     val jsObj = Json.parse(testJson).asInstanceOf[JsObject]
 
@@ -106,6 +119,11 @@ object main {
 
     val tpe = jsObj.getString("type", null)
     println(tpe)
+
+    val jsList = Json.parse(testJson2)
+    println(jsList)
+//    val list = jsList.toJsLists
+//    println(list)
   }
 
 }
