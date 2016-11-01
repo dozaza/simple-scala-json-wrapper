@@ -60,6 +60,17 @@ package object json {
       getInt(key).getOrElse(default)
     }
 
+    def getLong(key: String): Option[Long] = {
+      map.get(key) match {
+        case Some(DoubleExtractor(d)) => Some(d.toLong)
+        case _ => None
+      }
+    }
+
+    def getLong(key: String, default: => Long): Long = {
+      getLong(key).getOrElse(default)
+    }
+
     def getDouble(key: String): Option[Double] = {
       map.get(key) match {
         case Some(DoubleExtractor(d)) => Some(d)
