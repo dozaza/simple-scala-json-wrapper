@@ -19,7 +19,8 @@ class JsonTest extends WordSpec with ShouldMatchers {
       |    "age": 26
       |  },
       |  "type": null,
-      |  "isSingle": false
+      |  "isSingle": false,
+      |  "isAlive": 1
       |}
     """.stripMargin
 
@@ -90,6 +91,13 @@ class JsonTest extends WordSpec with ShouldMatchers {
     "parse boolean" in {
       jsObj.getBoolean("isSingle") match {
         case Some(flag) => flag should equal (false)
+        case _ => throw new RuntimeException
+      }
+    }
+
+    "parse boolean by number" in {
+      jsObj.getBoolean("isAlive") match {
+        case Some(flag) => flag should equal (true)
         case _ => throw new RuntimeException
       }
     }

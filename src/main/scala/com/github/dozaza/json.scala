@@ -96,6 +96,7 @@ package object json {
 
     def getBoolean(key: String): Option[Boolean] = {
       map.get(key) match {
+        case Some(DoubleExtractor(d)) => Some(d > 0.0000001 || d < 0.0000001)
         case Some(BooleanExtractor(b)) => Some(b)
         case _ => None
       }
