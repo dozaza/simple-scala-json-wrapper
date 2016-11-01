@@ -11,6 +11,7 @@ class JsonTest extends WordSpec with ShouldMatchers {
   private val jsonObj =
     """{
       |  "id": 1,
+      |  "longValue": 2147483648,
       |  "name": "dozaza",
       |  "languages": ["chinese", "english", "french"],
       |  "detail": {
@@ -53,6 +54,13 @@ class JsonTest extends WordSpec with ShouldMatchers {
     "parse int" in {
       jsObj.getInt("id") match {
         case Some(id) => id should equal (1)
+        case _ => throw new RuntimeException
+      }
+    }
+
+    "parse long" in {
+      jsObj.getLong("longValue") match {
+        case Some(id) => id should equal (2147483648L)
         case _ => throw new RuntimeException
       }
     }
